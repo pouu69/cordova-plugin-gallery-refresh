@@ -36,8 +36,10 @@ public class GalleryRefresh extends CordovaPlugin {
           }
 
           callbackContext.success("Success Scan File");
+          return true;
         } catch (Exception e) {
           callbackContext.error(e.getMessage());
+          return false;
         }
     }
 

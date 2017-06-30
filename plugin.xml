@@ -9,7 +9,7 @@
   <license>MIT</license>
   <author>KwanUng Park - pouu69@gmail.com</author>
   <keywords>image,photo library,gallery,refresh,download</keywords>
-
+  <repo>https://github.com/pouu69/cordova-plugin-gallery-refresh.git</repo>
   <engines>
       <engine name="cordova" version=">=3.0.0"/>
   </engines>
@@ -18,7 +18,7 @@
   <js-module name="GalleryRefresh" src="www/GalleryRefresh.js">
     <clobbers target="galleryRefresh" />
   </js-module>
-  
+
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="GalleryRefresh">

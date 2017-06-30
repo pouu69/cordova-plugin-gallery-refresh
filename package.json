@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-gallery-refresh",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Platform Device gallery refresh after image download",
   "homepage" : "https://github.com/pouu69/cordova-plugin-gallery-refresh",
   "repository": {

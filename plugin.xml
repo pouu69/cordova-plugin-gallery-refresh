@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin
+  id="cordova-plugin-gallery-refresh"
+  version="1.0.0"
+  xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>GalleryRefresh</name>
+  <description>Mobile Device gallery refresh after image file download.</description>
+  <license>MIT</license>
+  <author>KwanUng Park - pouu69@gmail.com</author>
+  <keywords>image,photo library,gallery,refresh,download</keywords>
+
+  <engines>
+      <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+
+
+  <js-module name="GalleryRefresh" src="www/GalleryRefresh.js">
+    <clobbers target="galleryRefresh" />
+  </js-module>
+  
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="GalleryRefresh">
+        <param name="android-package" value="com.ung.galleryrefresh.GalleryRefresh" />
+      </feature>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+    <source-file src="src/android/GalleryRefresh.java" target-dir="src/com/ung/galleryrefresh/GalleryRefresh" />
+  </platform>
+</plugin>

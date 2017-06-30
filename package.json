@@ -1,0 +1,17 @@
+{
+  "name": "GalleryRefresh",
+  "version": "1.0.0",
+  "description": "Platform Device gallery refresh after image download",
+  "cordova": {
+    "id": "com.ung.galleryrefresh",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "kwanung_park",
+  "license": "MIT"
+}

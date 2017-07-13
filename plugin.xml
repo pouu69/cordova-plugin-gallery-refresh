@@ -34,7 +34,7 @@
     </config-file>
 
     <header-file src="src/ios/GalleryRefresh.h" />
-    <source-file src="src/ios/GalleryRefresh.m" />
+    <source-file src="src/ios/GalleryRefresh.m" compiler-flags="-fno-objc-arc"/>
 
     <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
     <config-file target="*-Info.plist" parent="NSCameraUsageDescription">

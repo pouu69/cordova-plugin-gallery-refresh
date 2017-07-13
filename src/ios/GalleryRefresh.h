@@ -1,7 +1,7 @@
 #import <Cordova/CDVPlugin.h>
 
-@interface SaveImage : CDVPlugin {
-	NSString* callbackId;
+@interface GalleryRefresh : CDVPlugin {
+  NSString* callbackId;
 }
 
 @property (nonatomic, copy) NSString* callbackId;

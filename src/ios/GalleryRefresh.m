@@ -1,5 +1,3 @@
-/********* GalleryRefresh.m Cordova Plugin Implementation *******/
-
 #import "GalleryRefresh.h"
 #import <Cordova/CDV.h>
 
@@ -8,18 +6,7 @@
 
 - (void)refresh:(CDVInvokedUrlCommand*)command
 {
-  [self performSelectorInBackground:@selector(saveImage2Gallery) withObject:command];
-
-  CDVPluginResult* pluginResult = nil;
-  NSString* echo = [command.arguments objectAtIndex:0];
-
-  if (echo != nil && [echo length] > 0) {
-      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
-  } else {
-      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-  }
-
-  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  [self performSelectorInBackground:@selector(saveImage2Gallery:) withObject:command];
 }
 
 - (void)saveImage2Gallery:(CDVInvokedUrlCommand*)command
@@ -41,7 +28,7 @@
 		pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_ERROR messageAsString:error.description];
   } else {
     NSLog(@"SaveImage, image saved");
-		CDVPluginResult* result = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsString:@"Image saved"];
+		pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsString:@"Image saved"];
   }
   [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }

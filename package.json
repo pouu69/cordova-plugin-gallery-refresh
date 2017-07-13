@@ -25,6 +25,7 @@
     "cordova-android",
     "cordova",
     "gallery",
+    "cordova-ios",
     "refresh"
   ],
   "author": {

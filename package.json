@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-gallery-refresh",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Platform Device gallery refresh after image download",
   "homepage" : "https://github.com/pouu69/cordova-plugin-gallery-refresh",
   "repository": {
@@ -10,13 +10,27 @@
   "cordova": {
     "id": "cordova-plugin-gallery-refresh",
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   },
+  "engines": [
+      {
+          "name": "cordova",
+          "version": ">=3.0.0"
+      }
+  ],
   "keywords": [
     "ecosystem:cordova",
-    "cordova-android"
+    "cordova-android",
+    "cordova",
+    "gallery",
+    "refresh"
   ],
-  "author": "kwanung_park",
+  "author": {
+      "name": "KwanUng_Park",
+      "email": "pouup69@gmail.com",
+      "url": "https://github.com/pouu69"
+  },
   "license": "MIT"
 }

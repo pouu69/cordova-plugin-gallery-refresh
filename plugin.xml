@@ -1,19 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin
-  id="cordova-plugin-gallery-refresh"
-  version="1.0.0"
-  xmlns="http://apache.org/cordova/ns/plugins/1.0"
-  xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-gallery-refresh" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
   <name>GalleryRefresh</name>
   <description>Mobile Device gallery refresh after image file download.</description>
   <license>MIT</license>
   <author>KwanUng Park - pouu69@gmail.com</author>
   <keywords>image,photo library,gallery,refresh,download</keywords>
   <repo>https://github.com/pouu69/cordova-plugin-gallery-refresh.git</repo>
-  <engines>
-      <engine name="cordova" version=">=3.0.0"/>
-  </engines>
 
+  <engines>
+    <engine name="cordova" version=">=3.0.0" />
+  </engines>
 
   <js-module name="GalleryRefresh" src="www/GalleryRefresh.js">
     <clobbers target="galleryRefresh" />
@@ -25,7 +21,30 @@
         <param name="android-package" value="com.ung.galleryrefresh.GalleryRefresh" />
       </feature>
     </config-file>
-    <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+    <config-file parent="/*" target="AndroidManifest.xml" />
     <source-file src="src/android/GalleryRefresh.java" target-dir="src/com/ung/galleryrefresh/GalleryRefresh" />
+  </platform>
+
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="GalleryRefresh">
+        <param name="ios-package" value="GalleryRefresh" />
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/GalleryRefresh.h" />
+    <source-file src="src/ios/GalleryRefresh.m" />
+
+    <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+    <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+        <string>$CAMERA_USAGE_DESCRIPTION</string>
+    </config-file>
+
+    <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
+    <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+        <string>$PHOTOLIBRARY_USAGE_DESCRIPTION</string>
+    </config-file>
+
   </platform>
 </plugin>

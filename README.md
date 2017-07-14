@@ -1,6 +1,7 @@
 # cordova-plugin-gallery-refresh
 ## Device
 - android
+- ios
 
 ## What is it?
 `inappbrowser` plugin을 사용하여 remote web을 사용할 때 web상에서 `FileTransfer` 를 이용하여 이미지를 다운로드 하면 디바이스 포토갤러리에서 자동으로 인식하여 리스팅 해줘야 하는데 현재 `cordova` 는 지원하지 않고 수동으로 스캐닝 해줘야 한다.  
@@ -10,7 +11,10 @@
 Just add this line in config.xml
 ````
 // config.xml
-<plugin name="cordova-plugin-gallery-refresh" spec="^1.0.3" />
+<plugin name="cordova-plugin-gallery-refresh" />
+
+// or
+$ cordova plugin add cordova-plugin-gallery-refresh
 ````
 
 ## Usage

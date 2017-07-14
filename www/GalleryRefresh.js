@@ -21,7 +21,7 @@ GalleryRefresh.prototype.refresh = function(path, successCb, errorCb){
   }
 
   var withoutPrefixPath = _getLocalImagePathWithoutPrefix(path);
-  exec(function(params){ successCb(params); }, function(error){ errorCb(error); }, "GalleryRefresh", "refresh", []);
+  exec(function(params){ successCb(params); }, function(error){ errorCb(error); }, "GalleryRefresh", "refresh", [withoutPrefixPath]);
 
 
 }

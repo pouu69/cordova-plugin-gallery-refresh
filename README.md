@@ -4,7 +4,7 @@
 - ios
 
 ## What is it?
-> https://github.com/pouu69/cordova-plugin-gallery-refresh.git
+> It is a plugin that allows you to do scanning after the download.
 
 `inappbrowser` plugin을 사용하여 remote web을 사용할 때 web상에서 `FileTransfer` 를 이용하여 이미지를 다운로드 하면 디바이스 포토갤러리에서 자동으로 인식하여 리스팅 해줘야 하는데 현재 `cordova` 는 지원하지 않고 수동으로 스캐닝 해줘야 한다.  
 그래서 강제로 다운로드 이후 스캐닝 작업을 해줘 포토갤러리에서 인식하게 해주는 plugin이다.

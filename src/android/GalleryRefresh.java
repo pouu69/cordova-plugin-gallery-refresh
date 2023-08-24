@@ -13,39 +13,35 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-
-/**
- * This class echoes a string called from JavaScript.
- */
 public class GalleryRefresh extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
+            if (action.equals("refresh")) {
+                String filePath = _checkFilePath(args.getString(0));
 
-          if (action.equals("refresh")) {
-            String filePath = _checkFilePath(args.getString(0));
+                File file = new File(filePath);
 
-            if (filePath.equals("")) {
-              callbackContext.error("Invalid File Path");
+                if (!file.exists()) {
+                    callbackContext.error("Invalid File Path");
+                    return false;
+                }
+
+                this._scanFile(file);
             }
 
-            File file = new File(filePath);
-
-            this._scanPhoto(file);
-          }
-
-          callbackContext.success("Success Scan File");
-          return true;
+            callbackContext.success("Success Scan File");
+            return true;
         } catch (Exception e) {
-          callbackContext.error(e.getMessage());
-          return false;
+            callbackContext.error(e.getMessage());
+            return false;
         }
     }
 
-    private void _scanPhoto(File imageFile) {
+    private void _scanFile(File contentFile) {
+        Uri contentUri = Uri.fromFile(contentFile);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(imageFile);
         mediaScanIntent.setData(contentUri);
         cordova.getActivity().sendBroadcast(mediaScanIntent);
     }

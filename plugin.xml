@@ -22,7 +22,7 @@
       </feature>
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml" />
-    <source-file src="src/android/GalleryRefresh.java" target-dir="src/com/ung/galleryrefresh/GalleryRefresh" />
+    <source-file src="src/android/GalleryRefresh.java" target-dir="src/com/ung/galleryrefresh" />
   </platform>
 
   <platform name="ios">

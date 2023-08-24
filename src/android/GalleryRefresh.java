@@ -51,13 +51,10 @@ public class GalleryRefresh extends CordovaPlugin {
     }
 
     private String _checkFilePath(String filePath) {
-      String return_value = "";
-
-      try {
-        return_value = filePath.replaceAll("^file://", "");
-      } catch (Exception e) {
-        throw new RuntimeException("Error transfering file, error: " + e.getMessage());
-      }
-      return return_value;
+        try {
+            return filePath.replaceAll("^file://", "");
+        } catch (Exception e) {
+            throw new RuntimeException("Error transferring file, error: " + e.getMessage());
+        }
     }
 }

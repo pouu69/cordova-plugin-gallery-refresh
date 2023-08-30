@@ -1,63 +1,63 @@
 package com.ung.galleryrefresh;
 
-import org.apache.cordova.CordovaPlugin;
+import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.LOG;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
-
-/**
- * This class echoes a string called from JavaScript.
- */
 public class GalleryRefresh extends CordovaPlugin {
+    private static final String LOG_TAG = "GalleryRefresh";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
+            if (action.equals("refresh")) {
+                File file = new File(args.optString(0).replace("file://", ""));
 
-          if (action.equals("refresh")) {
-            String filePath = _checkFilePath(args.getString(0));
+                if (!file.exists()) {
+                    callbackContext.error("Invalid File Path");
+                    return false;
+                }
 
-            if (filePath.equals("")) {
-              callbackContext.error("Invalid File Path");
+                this._scanFile(file);
             }
 
-            File file = new File(filePath);
-
-            this._scanPhoto(file);
-          }
-
-          callbackContext.success("Success Scan File");
-          return true;
+            callbackContext.success("Success Scan File");
+            return true;
         } catch (Exception e) {
-          callbackContext.error(e.getMessage());
-          return false;
+            callbackContext.error(e.getMessage());
+            return false;
         }
     }
 
-    private void _scanPhoto(File imageFile) {
+    private void _scanFile(File inputFile) {
+        // deprecated
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(imageFile);
-        mediaScanIntent.setData(contentUri);
-        cordova.getActivity().sendBroadcast(mediaScanIntent);
+        mediaScanIntent.setData(Uri.fromFile(inputFile));
+        cordova.getContext().sendBroadcast(mediaScanIntent);
+
+        _scanFileWithScanner(inputFile.getAbsolutePath(), true);
     }
 
-    private String _checkFilePath(String filePath) {
-      String return_value = "";
-
-      try {
-        return_value = filePath.replaceAll("^file://", "");
-      } catch (Exception e) {
-        throw new RuntimeException("Error transfering file, error: " + e.getMessage());
-      }
-      return return_value;
+    private void _scanFileWithScanner(String filePath, boolean retry) {
+        MediaScannerConnection.scanFile(cordova.getContext(), new String[]{filePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            public void onScanCompleted(String path, Uri uri) {
+                LOG.d(LOG_TAG, "Scanned " + path + " -> uri=" + uri);
+                if (uri == null) {
+                    if (retry) {
+                        LOG.d(LOG_TAG, "Scan result uri is null ; will retry once");
+                        _scanFileWithScanner(path, false);
+                    } else {
+                        LOG.w(LOG_TAG, "Scan result uri is null but no retry will be done");
+                    }
+                }
+            }
+        });
     }
 }

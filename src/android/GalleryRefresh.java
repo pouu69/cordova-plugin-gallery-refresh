@@ -1,28 +1,24 @@
 package com.ung.galleryrefresh;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.webkit.MimeTypeMap;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.LOG;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
 
 public class GalleryRefresh extends CordovaPlugin {
+    private static final String LOG_TAG = "GalleryRefresh";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
             if (action.equals("refresh")) {
-                String filePath = _checkFilePath(args.getString(0));
-
-                File file = new File(filePath);
+                File file = new File(args.optString(0).replace("file://", ""));
 
                 if (!file.exists()) {
                     callbackContext.error("Invalid File Path");
@@ -40,49 +36,28 @@ public class GalleryRefresh extends CordovaPlugin {
         }
     }
 
-    private void _scanFile(File contentFile) {
-        Uri contentUri = Uri.fromFile(contentFile);
-
+    private void _scanFile(File inputFile) {
         // deprecated
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(contentUri);
-        cordova.getActivity().sendBroadcast(mediaScanIntent);
+        mediaScanIntent.setData(Uri.fromFile(inputFile));
+        cordova.getContext().sendBroadcast(mediaScanIntent);
 
-        // new using MediaStore
-        String mimeType;
-        if (ContentResolver.SCHEME_CONTENT.equals(contentUri.getScheme())) {
-            mimeType = cordova.getActivity().getContentResolver().getType(contentUri);
-        } else {
-            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(contentUri.toString());
-            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension.toLowerCase());
-        }
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DATA, contentFile.getAbsolutePath());
-        Uri externalContentUri = null;
-        if (mimeType != null) {
-            values.put(MediaStore.MediaColumns.MIME_TYPE, mimeType);
-            if (mimeType.contains("audio/")) {
-                externalContentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            } else if (mimeType.contains("image/")) {
-                externalContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            } else if (mimeType.contains("video/")) {
-                externalContentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-            } else {
-                if (Build.VERSION.SDK_INT >= 29) {
-                    externalContentUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-                }
-            }
-        }
-        if (externalContentUri != null) {
-            cordova.getActivity().getContentResolver().insert(externalContentUri, values);
-        }
+        _scanFileWithScanner(inputFile.getAbsolutePath(), true);
     }
 
-    private String _checkFilePath(String filePath) {
-        try {
-            return filePath.replaceAll("^file://", "");
-        } catch (Exception e) {
-            throw new RuntimeException("Error transferring file, error: " + e.getMessage());
-        }
+    private void _scanFileWithScanner(String filePath, boolean retry) {
+        MediaScannerConnection.scanFile(cordova.getContext(), new String[]{filePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            public void onScanCompleted(String path, Uri uri) {
+                LOG.d(LOG_TAG, "Scanned " + path + " -> uri=" + uri);
+                if (uri == null) {
+                    if (retry) {
+                        LOG.d(LOG_TAG, "Scan result uri is null ; will retry once");
+                        _scanFileWithScanner(path, false);
+                    } else {
+                        LOG.w(LOG_TAG, "Scan result uri is null but no retry will be done");
+                    }
+                }
+            }
+        });
     }
 }

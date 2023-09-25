@@ -36,12 +36,12 @@
     <header-file src="src/ios/GalleryRefresh.h" />
     <source-file src="src/ios/GalleryRefresh.m" compiler-flags="-fno-objc-arc"/>
 
-    <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+    <preference name="CAMERA_USAGE_DESCRIPTION" default="Use the camera" />
     <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
         <string>$CAMERA_USAGE_DESCRIPTION</string>
     </config-file>
 
-    <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
+    <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default="Use the photo library" />
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
         <string>$PHOTOLIBRARY_USAGE_DESCRIPTION</string>
     </config-file>

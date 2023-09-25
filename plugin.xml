@@ -21,7 +21,7 @@
         <param name="android-package" value="com.ung.galleryrefresh.GalleryRefresh" />
       </feature>
     </config-file>
-    <config-file parent="/*" target="AndroidManifest.xml" />
+
     <source-file src="src/android/GalleryRefresh.java" target-dir="src/com/ung/galleryrefresh/GalleryRefresh" />
   </platform>
 
